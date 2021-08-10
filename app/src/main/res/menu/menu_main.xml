@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/btn_home"
+        app:showAsAction="ifRoom"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"/>
+
+    <item
+        android:id="@+id/btn_ship"
+        app:showAsAction="ifRoom"
+        android:title="Ship"
+        android:icon="@drawable/ic_baseline_directions_boat_24"/>
+
+    <item
+        android:id="@+id/holder"
+        app:showAsAction="ifRoom"
+        android:title=""
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/btn_pelayaran"
+        app:showAsAction="ifRoom"
+        android:title="Pelayaran"
+        android:icon="@drawable/ic_baseline_location_on_24"/>
+
+    <item
+        android:id="@+id/btn_profile"
+        app:showAsAction="ifRoom"
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_person_24"/>
+
+</menu>
