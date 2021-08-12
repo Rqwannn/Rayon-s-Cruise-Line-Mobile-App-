@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="15dp"
     android:background="@drawable/bg_login"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingVertical="50dp"
+        android:layout_gravity="center"
+        android:paddingHorizontal="15dp"
         android:layout_width="match_parent"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -150,6 +151,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="15dp"
             android:text="Submit"
+            android:textColor="@color/white"
             android:backgroundTint="@color/blue_ocean"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -160,7 +162,7 @@
 
         <TextView
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_login"
             android:id="@+id/forgot_password"

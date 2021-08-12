@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rayons">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rayons">
+        android:theme="@style/Theme.Rayons"
+        android:usesCleartextTraffic="true">
         <activity android:name=".Register" />
         <activity android:name=".Beranda" />
         <activity android:name=".MainActivity">

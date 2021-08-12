@@ -1,9 +1,12 @@
 package com.example.rayons;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class MainActivity extends AppCompatActivity {
     TextInputLayout Username, Password;
     TextInputEditText UsernameField, PasswordField;
+    ImageView Logo;
     TextView SignUp;
     MaterialButton Login;
     CheckBox Checked;
@@ -34,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ((MainActivity) this).getSupportActionBar().setTitle("Login");
         getSupportActionBar().hide();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+//        int orientation = getResources().getConfiguration().orientation;
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            // In landscape
+//        } else {
+//            // In Potrait
+//        }
 
         UsernameField = findViewById(R.id.username_field);
         PasswordField = findViewById(R.id.password_field);
@@ -42,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         ShredRef = getSharedPreferences("SESSION", MODE_PRIVATE);
 
-        if (ShredRef.getBoolean("Submit", false)){
+        if (ShredRef.getBoolean("RememberMe", false)){
             startActivity(new Intent(MainActivity.this, Beranda.class));
         }
 
@@ -56,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     boolean Check = Checked.isChecked();
 
                     editor = ShredRef.edit();
+                    editor.putInt("Submit", 1);
                     editor.putString("Username", Username);
-                    editor.putBoolean("Submit", Check);
+                    editor.putBoolean("RememberMe", Check);
                     editor.apply();
 
                     Toast.makeText(MainActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
@@ -87,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (key_code== KeyEvent.KEYCODE_BACK) {
             super.onKeyDown(key_code, key_event);
-            if (!ShredRef.getBoolean("Submit", false)){
+            if (ShredRef.getInt("Submit", 0) != 1){
                 return false;
             } else {
                 return true;
