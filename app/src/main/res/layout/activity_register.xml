@@ -146,7 +146,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_register"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="15dp"
@@ -164,7 +164,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login"
+            app:layout_constraintTop_toBottomOf="@+id/btn_register"
             android:id="@+id/forgot_password"
             android:textColor="@color/white"
             android:layout_width="wrap_content"

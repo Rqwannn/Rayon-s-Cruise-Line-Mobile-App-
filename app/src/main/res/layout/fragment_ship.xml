@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+ <RelativeLayout
     tools:context=".Home"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_ship"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swl_data"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:textSize="30dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/parent_data_kapal"
+            android:layout_width="match_parent"
+            tools:listitem="@layout/card_kapal"
             android:layout_height="wrap_content"
-            android:text="Kapal"/>
+            >
 
-    </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_data"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:layout_height="wrap_content">
+    </ProgressBar>
+
+</RelativeLayout>

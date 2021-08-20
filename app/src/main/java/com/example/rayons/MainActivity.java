@@ -9,6 +9,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,9 +21,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rayons.API.APIRequest;
+import com.example.rayons.API.RetroServer;
+import com.example.rayons.Model.ResponseModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     TextInputLayout Username, Password;
@@ -32,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     CheckBox Checked;
     SharedPreferences ShredRef;
     SharedPreferences.Editor editor;
+    String username, password;
+    boolean Pass = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +73,54 @@ public class MainActivity extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (UsernameField.getText().length() == 0 || PasswordField.getText().length() == 0){
-                    Toast.makeText(MainActivity.this, "Isi Field Terlebih Dahulu", Toast.LENGTH_SHORT).show();
-                } else {
-                    String Username = UsernameField.getText().toString();
-                    boolean Check = Checked.isChecked();
+                Username = findViewById(R.id.username);
+                Password = findViewById(R.id.password);
+                Pass = true;
 
-                    editor = ShredRef.edit();
-                    editor.putInt("Submit", 1);
-                    editor.putString("Username", Username);
-                    editor.putBoolean("RememberMe", Check);
-                    editor.apply();
+                username = UsernameField.getText().toString();
+                password = PasswordField.getText().toString();
 
-                    Toast.makeText(MainActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, Beranda.class));
+                for (int i = 1; i <= 3; i++){
+                    if (UsernameField.getText().toString().trim().equals("") && i == 1) {
+                        Username.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                        UsernameField.setError("Username Harus Di Isi");
+                        Pass = false;
+                    } else if (PasswordField.getText().toString().trim().equals("") && i == 2){
+                        Password.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                        PasswordField.setError("Password Harus Di Isi");
+                        Pass = false;
+                    } else if(Pass && i == 3){
+                        AuthUser();
+                    }
                 }
             }
         });
+
+        TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (PasswordField.getText().toString().trim().length() > 0 && !Pass){
+                    Password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+                }
+
+                if (UsernameField.getText().toString().trim().length() > 0 && !Pass){
+                    Username.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+
+        PasswordField.addTextChangedListener(fieldValidatorTextWatcher);
+        UsernameField.addTextChangedListener(fieldValidatorTextWatcher);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -92,6 +134,58 @@ public class MainActivity extends AppCompatActivity {
         SignUp.setOnClickListener(data -> {
             Intent MoveActivity = new Intent(getApplicationContext(), Register.class);
             startActivity(MoveActivity);
+        });
+    }
+
+    public void AuthUser(){
+        APIRequest API = RetroServer.KonekRetrofit().create(APIRequest.class);
+        Call<ResponseModel> AuthData = API.authUser(
+                username,
+                password
+        );
+
+        AuthData.enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                int Kode = response.body().getKode();
+
+                String ErrorPesan = response.body().getPesan() == null ? "" : response.body().getPesan();
+                String ErrorUser = response.body().getPesanUsername() == null ? "" : response.body().getPesanUsername();
+                String ErrorPassword = response.body().getPesanPassword() == null ? "" : response.body().getPesanPassword();
+
+                if (Kode == 1){
+                    Toast.makeText(MainActivity.this, ErrorPesan, Toast.LENGTH_SHORT).show();
+                    String Username = UsernameField.getText().toString();
+                    boolean Check = Checked.isChecked();
+
+                    editor = ShredRef.edit();
+                    editor.putInt("Submit", 1);
+                    editor.putString("Username", Username);
+                    editor.putBoolean("RememberMe", Check);
+                    editor.apply();
+
+                    startActivity(new Intent(MainActivity.this, Beranda.class));
+                } else {
+                    for (int i = 1; i <= 3; i++){
+                        if (ErrorPesan.length() > 0 && i == 1) {
+                            Toast.makeText(MainActivity.this, response.body().getPesan(), Toast.LENGTH_SHORT).show();
+                        } else if (ErrorUser.length() > 0 && i == 2){
+                            Username.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                            UsernameField.setError(response.body().getPesanUsername());
+                            Pass = false;
+                        } else if (ErrorPassword.length() > 0 && i == 3){
+                            Password.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                            PasswordField.setError(response.body().getPesanPassword());
+                            Pass = false;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                Toast.makeText(MainActivity.this,"Gagal Menghubungi Server " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

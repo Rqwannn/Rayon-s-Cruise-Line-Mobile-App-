@@ -2,32 +2,31 @@ package com.example.rayons;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.w3c.dom.Text;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Beranda extends AppCompatActivity {
     SharedPreferences ShredRef;
     SharedPreferences.Editor editor;
-    TextView UsernameSession;
     BottomNavigationView BtnView;
-    NestedScrollView Parent;
     Fragment fragment;
+    int ForceClose = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +48,8 @@ public class Beranda extends AppCompatActivity {
         BtnView.setBackground(null);
         BtnView.setSelectedItemId(R.id.btn_home);
 
-        if (ShredRef.getString("Fragment", null) != null){
-            String Name = ShredRef.getString("Fragment", null);
+        if (ShredRef.getString("FragmentS", null) != null){
+            String Name = ShredRef.getString("FragmentS", null);
             if (Name.equals("Kapal")){
                 fragment = new Ship();
                 loadFragment(fragment);
@@ -62,13 +61,13 @@ public class Beranda extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.btn_ship){
-                    if (!ShredRef.getString("Fragment", null).equals("Kapal")){
+                    if (!ShredRef.getString("FragmentS", "").equals("Kapal")){
                         fragment = new Ship();
                         animFragment(fragment, "Kapal");
                         return true;
                     }
                 } else if (item.getItemId() == R.id.btn_home){
-                    if (!ShredRef.getString("Fragment", null).equals("Home")){
+                    if (!ShredRef.getString("FragmentS", "").equals("Home")){
                         fragment = new Home();
                         animFragment(fragment, "Home");
                         return true;
@@ -87,7 +86,7 @@ public class Beranda extends AppCompatActivity {
         transaction.commit();
 
         editor = ShredRef.edit();
-        editor.putString("Fragment", Text);
+        editor.putString("FragmentS", Text);
         editor.apply();
     }
 
@@ -104,6 +103,24 @@ public class Beranda extends AppCompatActivity {
 
         if (key_code== KeyEvent.KEYCODE_BACK) {
             super.onKeyDown(key_code, key_event);
+
+            if (ForceClose == 0){
+                Toast.makeText(Beranda.this, "Tekan lagi untuk keluar", Toast.LENGTH_LONG).show();
+                ForceClose++;
+
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        ForceClose = 0;
+                    }
+                }, 3600);
+
+            } else {
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+
             if (ShredRef.getInt("Submit", 0) == 1){
                 return false;
             } else {
