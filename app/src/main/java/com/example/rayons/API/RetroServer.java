@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroServer {
-    private static final String BaseURL = "http://192.168.1.8/RestAPI/Rayon/";
+    private static final String BaseURL = "http://192.168.1.7/RestAPI/Rayon/";
     public static Retrofit Server;
 
     public static Retrofit KonekRetrofit(){

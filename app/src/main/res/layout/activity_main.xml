@@ -83,11 +83,11 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/username_field"
-                            android:textCursorDrawable="@drawable/cursor"
-                            android:textColor="@color/white"
-                            android:maxLength="30"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:maxLength="30"
+                            android:textColor="@color/white"
+                            android:textCursorDrawable="@drawable/cursor" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

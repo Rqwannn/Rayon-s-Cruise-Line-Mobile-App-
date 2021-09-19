@@ -15,9 +15,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/parent_data_kapal"
             android:layout_width="match_parent"
-            tools:listitem="@layout/card_kapal"
             android:layout_height="wrap_content"
-            >
+            tools:listitem="@layout/card_kapal">
 
         </androidx.recyclerview.widget.RecyclerView>
 

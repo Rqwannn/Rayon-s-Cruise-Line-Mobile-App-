@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Rayons</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="deskripsi_kapal">pengkondisian. Fasilitas umum termasuk tujuh restoran, 20 bar dan lounge, empat kolam renang, arena bowling, dan gimnasium. Sebuah spa terletak di dek 14. Teater ini menampung 1.600 tamu. Arena olahraga menawarkan olahraga seperti bola basket, bola voli, tenis, dan lintasan jogging sepanjang 235 m. Area bermain bertema Smurf terletak di dek 15 di area khusus anak-anak.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="keterangan_header1">Kapal Pesiar Dari AS Kembali</string>
+    <string name="keterangan_header2">10% Untuk Pelayaran Pertama</string>
+    <string name="pelayaran_menyenangkan">PELAYARAN YANG MENYENANGKAN</string>
+    <string name="pelayaran_menyenangkan_content">Selama masa-masa yang luar biasa ini, Royal Rayons berkomitmen untuk ketenangan pikiran para tamu kami. Program Cruise with Confidence kami memastikan Anda memiliki fleksibilitas untuk membatalkan pelayaran Anda yang dekat dengan keberangkatan, sambil mengetahui bahwa Anda akan berlayar dengan harga terbaik di luar sana.</string>
 </resources>

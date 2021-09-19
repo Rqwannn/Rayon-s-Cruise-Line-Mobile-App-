@@ -35,7 +35,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     TextInputLayout Username, Password;
     TextInputEditText UsernameField, PasswordField;
-    ImageView Logo;
     TextView SignUp;
     MaterialButton Login;
     CheckBox Checked;
@@ -65,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         Checked = findViewById(R.id.check);
 
         ShredRef = getSharedPreferences("SESSION", MODE_PRIVATE);
+        String getStatusFragment = ShredRef.getString("FragmentS", "");
+        if (!getStatusFragment.equals("")){
+            editor = ShredRef.edit();
+            editor.clear().apply();
+        }
 
         if (ShredRef.getBoolean("RememberMe", false)){
             startActivity(new Intent(MainActivity.this, Beranda.class));
@@ -187,6 +191,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Gagal Menghubungi Server " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     @Override
